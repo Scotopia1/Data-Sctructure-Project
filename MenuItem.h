@@ -48,7 +48,7 @@ public:
      *  Postcondition: The details of the MenuItem are printed to the         *
      *                 console.                                               *
      *------------------------------------------------------------------------*/
-    void display();
+    string display();
 
     // Getters for accessing the private attributes
     int getId() const;

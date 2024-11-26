@@ -1,10 +1,13 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-#include "Order.h"
+
+#include "Order.h" // Include Order.h before using ElementType
+#include "Stack.h"
 
 
 #include <iostream>
 #include <string>
+#include <assert.h>
 
 using namespace std;
 
@@ -13,9 +16,7 @@ using namespace std;
  * Represents a queue data structure that stores orders.                  *
  *------------------------------------------------------------------------*/
 class Queue {
-
 public:
-
     /*------------------------------------------------------------------------*
      *  Queue                                                                 *
      *  Default constructor. Initializes an empty Queue object.               *
@@ -35,7 +36,7 @@ public:
      *  Precondition:  value is a valid Order object.                         *
      *  Postcondition: value is added to the back of the queue.               *
      *------------------------------------------------------------------------*/
-    void enqueue(int value);
+    void enqueue(ElementType value);
 
     /*------------------------------------------------------------------------*
      *  dequeue                                                               *
@@ -93,12 +94,20 @@ public:
      *------------------------------------------------------------------------*/
     void clear();
 
-private:
-    struct  Node {
+    /*------------------------------------------------------------------------*
+     *  processNextOrder                                                      *
+     *  Processes the next order in the queue.                                *
+     *                                                                        *
+     *  Precondition:  The queue is not empty.                                *
+     *  Postcondition: The next order in the queue is processed.              *
+     *------------------------------------------------------------------------*/
+    void processNextOrder(Stack* stack);
 
+private:
+    struct Node {
         ElementType data; // Data stored in the node
 
-        Node* next; // Pointer to the next node in the queue
+        Node *next; // Pointer to the next node in the queue
 
         /*------------------------------------------------------------*
          *  Node                                                      *
@@ -109,16 +118,15 @@ private:
          *  Postcondition: A new Node object is created with the data *
          *                 and next pointer set.                      *
          *------------------------------------------------------------*/
-        Node(ElementType data) : data(data), next(nullptr) {}
+        Node(ElementType data) : data(data), next(nullptr){
+        }
     };
 
-    typedef Node* NodePtr; // Pointer to a Node
+    typedef Node *NodePtr; // Pointer to a Node
 
     NodePtr front; // Pointer to the front of the queue
     NodePtr back; // Pointer to the back of the queue
-
 };
-
 
 
 #endif //QUEUE_H

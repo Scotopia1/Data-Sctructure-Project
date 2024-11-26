@@ -1,5 +1,7 @@
 #include "Order.h"
 
+#include "Stack.h"
+
 
 Order::Order() {
     setOrder("", nullptr);
@@ -29,12 +31,12 @@ string Order::toString() {
     return orderDetails;
 }
 
-double Order::calculateTotalRevenue(const Stack& OcompletedOrders) {
-    Stack completedOrders = OcompletedOrders;
+double Order::calculateTotalRevenue(const Stack& completedOrders) {
+    Stack newcompletedOrders = completedOrders;
     double totalRevenue = 0;
-    int size = completedOrders.getSize();
+    int size = newcompletedOrders.getSize();
     for (int i = 0; i < size; i++) {
-        Order order = completedOrders.pop();
+        Order order = newcompletedOrders.pop();
         totalRevenue += order.getTotalAmount();
     }
     return totalRevenue;

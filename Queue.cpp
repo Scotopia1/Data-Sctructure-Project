@@ -1,6 +1,7 @@
 #include "Queue.h"
 
-#include <assert.h>
+
+
 
 Queue::Queue() {
     /*------------------------------------------------------------*
@@ -19,7 +20,7 @@ Queue::~Queue() {
     clear();
 }
 
-void Queue::enqueue(int value) {
+void Queue::enqueue(ElementType value) {
     /*------------------------------------------------------------*
      *  enqueue                                                   *
      *  Adds an order to the back of the queue.                   *
@@ -63,10 +64,7 @@ ElementType Queue::peek() {
      *  Postcondition: The front order is returned without        *
      *                 removing it.                               *
      *------------------------------------------------------------*/
-    if (isEmpty()) {
-        cerr << "Error: Queue is empty.\n";
-        return -1;
-    }
+    assert( !isEmpty() );
     return front->data;
 }
 
@@ -107,7 +105,7 @@ void Queue::print() {
      *------------------------------------------------------------*/
     NodePtr current = front;
     while (current != nullptr) {
-        cout << current->data << " ";
+        cout << current->data.toString() << " ";
         current = current->next;
     }
     cout << endl;
@@ -129,4 +127,20 @@ int Queue::size() {
         current = current->next;
     }
     return count;
+}
+
+void Queue::processNextOrder(Stack* stack){
+    /*------------------------------------------------------------*
+     *  processNextOrder                                          *
+     *  Processes the next order in the queue.                    *
+     *                                                            *
+     *  Precondition:  The queue is not empty.                    *
+     *  Postcondition: The next order in the queue is processed.  *
+     *------------------------------------------------------------*/
+    try {
+        ElementType order = dequeue();
+        stack->push(order);
+    } catch (const runtime_error &e) {
+        cerr << "Error: " << e.what() << endl;
+    }
 }

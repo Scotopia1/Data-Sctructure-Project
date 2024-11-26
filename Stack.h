@@ -1,16 +1,13 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "Order.h"
-#include "Queue.h"
+#include "Order.h" // Include Order.h before using ElementType
 
 #include <iostream>
 #include <sstream>
 #include <fstream>
 
-using namespace std;
-
-typedef Order ElementType;
+typedef Order ElementType; // type of elements stored in the stack
 
 /*------------------------------------------------------------------------*
  *  Stack                                                                 *
@@ -101,13 +98,13 @@ public:
 
 
     /*------------------------------------------------------------------------*
-     *  getOrders                                                             *
-     *  Returns the list of orders in the stack.                              *
+     *  processNextOrder                                                      *
+     *  Processes the next order in the queue.                                *
      *                                                                        *
-     *  Precondition:  The stack is initialized.                              *
-     *  Postcondition: The list of orders in the stack is returned.           *
+     *  Precondition:  The queue is not empty.                                *
+     *  Postcondition: The next order in the queue is processed.              *
      *------------------------------------------------------------------------*/
-    void processNextOrder(const Queue &orders);
+    // void processNextOrder(const Queue &orders);
 
     /*------------------------------------------------------------------------*
      *  saveCompletedOrders                                                   *
@@ -126,7 +123,7 @@ public:
      *  Postcondition: The total revenue for all completed orders is          *
      *                 calculated and returned.                               *
      *------------------------------------------------------------------------*/
-    void calculateTotalRevenue(const Stack &completedOrders);
+    void calculateTotalRevenue();
 
     /*------------------------------------------------------------------------*
      *  loadTotalRevenue                                                      *
@@ -139,11 +136,11 @@ public:
 
 private:
     struct Node {
-        ElementType order; // order stored in the node
+        ElementType data; // order stored in the node
         Node *next; // pointer to the next node in the stack
 
-        Node(const ElementType &order, Node *next = nullptr) {
-            this->order = order;
+        Node(const ElementType &data, Node *next = nullptr) {
+            this->data = data;
             this->next = next;
         }
     };

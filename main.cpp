@@ -2,14 +2,21 @@
 
 #include "DynamicArrayList.h"
 #include "Stack.h"
+#include "Queue.h"
+
 using namespace std;
 
 int main() {
     DynamicArrayList menu = DynamicArrayList();
+    cout << "Loading menu items from file...\n";
     menu.loadMenu();
+    cout << "Menu items loaded successfully!\n";
     Stack completedOrders = Stack();
+    cout << "Loading completed orders from file...\n";
     completedOrders.loadTotalRevenue();
-    Queue orders = Queue();
+    cout << "Completed orders loaded successfully!\n";
+    Queue activeorders = Queue();
+    cout << "Loading active orders from file...\n";
 
     cout << "--- Restaurant Order Management System ---" << endl;
 
@@ -28,6 +35,8 @@ int main() {
         cout << "Enter your choice: ";
         int choice;
         cin >> choice;
+
+
         switch (choice) {
             case 1:
                 menu.display();
@@ -44,14 +53,14 @@ int main() {
             case 5:
                 break;
             case 6:
-                completedOrders.processNextOrder(orders);
+                activeorders.processNextOrder(&completedOrders);
                 break;
             case 7:
                 break;
             case 8:
                 break;
             case 9:
-                completedOrders.calculateTotalRevenue(completedOrders);
+                completedOrders.calculateTotalRevenue();
                 break;
             case 10:
                 completedOrders.saveCompletedOrders();

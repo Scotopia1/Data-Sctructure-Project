@@ -121,7 +121,6 @@ void DynamicArrayList::resize() {
     capacity *= 2;
 }
 
-
 void DynamicArrayList::display() const {
     /*------------------------------------------------------------------------*
      *  display                                                               *
@@ -131,22 +130,11 @@ void DynamicArrayList::display() const {
      *  Postcondition: Each MenuItem is printed to the console.               *
      *------------------------------------------------------------------------*/
     for (int i = 0; i < size; i++) {
-        cout << menuItem[i] << endl;
+        if (menuItem[i].getPrice() == 0.00000000) {
+            continue;
+        }
+        cout << menuItem[i].display() << endl;
     }
-}
-
-ostream operator<<(const ostream &out, const MenuItem &menuitem) {
-    /*------------------------------------------------------------------------*
-     *  operator<<                                                           *
-     *  Overloaded operator to print the details of a MenuItem object.        *
-     *                                                                        *
-     *  Precondition:  The MenuItem object is initialized.                    *
-     *  Postcondition: The details of the MenuItem are printed to the console.*
-     *------------------------------------------------------------------------*/
-    out << "ID: " << menuitem.getId() << ", "
-            << "Name: " << menuitem.getName() << ", "
-            << "Price: $" << menuitem.getPrice() << "\n";
-    return out;
 }
 
 
@@ -166,26 +154,37 @@ void DynamicArrayList::loadMenu() {
     if (fileHandler.getLines() == nullptr || fileHandler.getSize() == 0) {
         cerr << "No data to load. Ensure the file has been read first.\n";
         return;
-    }
+    } else {
+        for (int i = 0; i < fileHandler.getSize(); i++) {
+            string line = fileHandler.getLines()[i];
+            stringstream ss(line);
+            string id, name, description;
+            double price;
 
-    for (int i = 0; i < fileHandler.getSize(); i++) {
-        string line = fileHandler.getLines()[i];
-        stringstream ss(line);
-        string id, name, description;
-        double price;
+            // Check if the line is empty
+            if (line.empty()) {
+                continue; // Skip to the next line
+            }
 
-        getline(ss, id, ',');
-        getline(ss, name, ',');
-        getline(ss, description, ',');
-        ss >> price;
+            getline(ss, id, ',');
+            getline(ss, name, ',');
+            getline(ss, description, ',');
+            ss >> price;
 
-        if (ss.fail()) {
-            cerr << "Error parsing line: " << line << endl;
-            continue;
+            if (!ss.fail() || !id.empty() || !name.empty() || !description.empty() || price != 0.0000) {
+                cerr << "Error parsing line: " << line << endl;
+                continue;
+
+
+                MenuItem menuItem = MenuItem(name, description, price);
+
+                cout << "\033[1;32m";
+                cout << "Created MenuItem: " << menuItem.getId() << " " << menuItem.getName() << " "
+                        << menuItem.getDescription() << " " << menuItem.getPrice() << endl;
+                cout << "\033[0m";
+                add(menuItem);
+            }
         }
-
-        MenuItem menuItem = MenuItem(name, description, price);
-        add(menuItem);
     }
 }
 
@@ -283,8 +282,8 @@ void DynamicArrayList::deleteMenuItem() {
 
     // Find the index of the item with the given ID
     int indexToDelete = -1;
-    for (int i = 0; i < menu.getSize(); i++) {
-        if (menu.getMenuItem(i).getId() == idToDelete) {
+    for (int i = 0; i < getSize(); i++) {
+        if (getMenuItem(i).getId() == idToDelete) {
             indexToDelete = i;
             break;
         }
@@ -297,9 +296,9 @@ void DynamicArrayList::deleteMenuItem() {
     }
 
     // Delete the item by calling the remove method from DynamicArrayList
-    menu.remove(indexToDelete);
+    remove(indexToDelete);
     cout << "Menu item with ID " << idToDelete << " has been deleted." << endl;
-    menu.saveMenu();
+    saveMenu();
 }
 
 

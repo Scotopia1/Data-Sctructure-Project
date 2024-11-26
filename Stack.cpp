@@ -10,11 +10,11 @@ Stack::Stack(const Stack& other) {
     currentOrder = nullptr; // Initialize the new stack's top to nullptr
     if (other.currentOrder != nullptr) {
         NodePtr current = other.currentOrder;
-        NodePtr temp = new Node(current->order); // Create the first node
+        NodePtr temp = new Node(current->data); // Create the first node
         currentOrder = temp;
         current = current->next;
         while (current != nullptr) {
-            temp->next = new Node(current->order); // Create subsequent nodes
+            temp->next = new Node(current->data); // Create subsequent nodes
             temp = temp->next;
             current = current->next;
         }
@@ -45,7 +45,7 @@ ElementType Stack::pop() {
     if (currentOrder == nullptr ) {
         throw "Stack is empty!";
     }
-    ElementType order = currentOrder->order;
+    ElementType order = currentOrder->data;
     NodePtr temp = currentOrder;
     currentOrder = currentOrder->next;
     delete temp;
@@ -56,7 +56,7 @@ ElementType Stack::getCurrentOrder() const {
     if ( currentOrder == nullptr ) {
         throw runtime_error("Stack is empty!");
     }
-    return currentOrder->order;
+    return currentOrder->data;
 }
 
 int Stack::getSize() const {
@@ -72,13 +72,8 @@ int Stack::getSize() const {
     return size;
 }
 
-void Stack::processNextOrder(const Queue& queue) {
-    try {
-        ElementType order = queue.dequeue();
-        push(order);
-    } catch (const runtime_error& e) {
-        cerr<< "Error: " << e.what() << endl;
-    }
+double Stack::getTotalRevenue() const {
+    return total;
 }
 
 void Stack::saveCompletedOrders() {
@@ -121,16 +116,16 @@ void Stack::setStack(NodePtr currentOrder, NodePtr back) {
     this->back = back;
 }
 
-void Stack::calculateTotalRevenue(const Stack& completedOrders) {
+void Stack::calculateTotalRevenue() {
     /*------------------------------------------------------------------------*
      *  calculateTotalRevenue                                                 *
      *  Calculates the total revenue from all completed orders.               *
      *                                                                        *
-     *  Precondition:  completedOrders is a valid Stack object.               *
+     *  Precondition:                                                         *
      *  Postcondition: The total revenue for all completed orders is          *
      *                 calculated and returned.                               *
      *------------------------------------------------------------------------*/
-    Stack completedOrdersCopy = completedOrders; // Create a copy of the stack
+    Stack completedOrdersCopy = *this ; // Create a copy of the stack
     FileHandler fileHandler("completed_orders.txt"); // Create a FileHandler object
     completedOrdersCopy.loadTotalRevenue(); // Load the total revenue from the file
     double totalRevenue = completedOrdersCopy.getTotalRevenue();// Calculate the total revenue
@@ -149,7 +144,7 @@ void Stack::loadTotalRevenue() {
      *  loadTotalRevenue                                                      *
      *  Loads the total revenue from a file.                                  *
      *                                                                        *
-     *  Precondition: fileHandler has read the data from a valid file.        *
+     *  Precondition:                                                         *
      *  Postcondition: The total revenue is read from the file.               *
      *------------------------------------------------------------------------*/
     FileHandler fileHandler("completed_orders.txt"); // Create a FileHandler object

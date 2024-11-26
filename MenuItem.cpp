@@ -36,15 +36,20 @@ MenuItem::MenuItem(const MenuItem& menuitem) {
     price = menuitem.price;      // Copy the price
 }
 
-// Overloaded output stream operator
-// Outputs the details of a MenuItem in a formatted way. This operator
-// is used to print the menu item in a human-readable form.
-ostream& operator<<(ostream& os, const MenuItem& item) {
-    os << "Id: " << item.getId() << "\n"          // Print the ID
-        << "Name: " << item.getName() << "\n"      // Print the name
-        << "Description: " << item.getDescription() << "\n" // Print the description
-        << "Price: $" << item.getPrice() << "\n";  // Print the price
-    return os;  // Return the stream to allow chaining
+string MenuItem::display() {
+    /*------------------------------------------------------------*
+     *  display                                                   *
+     *  Displays the details of the MenuItem.                     *
+     *                                                            *
+     *  Precondition:  The MenuItem object is initialized.        *
+     *  Postcondition: The details of the MenuItem are printed to *
+     *                 the console.                               *
+     *------------------------------------------------------------*/
+    string itemDetails = "ID: " + to_string(id) + ", ";
+    itemDetails += "Name: " + name + ", ";
+    itemDetails += "Description: " + description + ", ";
+    itemDetails += "Price: $" + to_string(price) + "\n";
+    return itemDetails;
 }
 
 // Getter for the ID

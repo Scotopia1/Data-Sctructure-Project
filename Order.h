@@ -2,7 +2,6 @@
 #define ORDER_H
 
 #include "MenuItem.h"
-#include "Stack.h"
 #include "DynamicArrayList.h"
 
 #include <iostream>
@@ -12,6 +11,7 @@
 
 using namespace std;
 
+class Stack; // Forward declaration
 /*------------------------------------------------------------------------*
  *  Order                                                                 *
  *  Represents a customer's order with a list of menu items.              *

@@ -127,15 +127,6 @@ public:
     void displayMenu();
 
     /*------------------------------------------------------------------------*
-     *  operator<<                                                            *
-     *  Overloaded ostream operator to display the MenuItem object.           *
-     *                                                                        *
-     *  Precondition: The MenuItem object is initialized.                     *
-     *  Postcondition: The MenuItem details are printed to the console.       *
-     *------------------------------------------------------------------------*/
-    ostream operator<<(const ostream &out, const MenuItem &menuitem);
-
-    /*------------------------------------------------------------------------*
      *  addMenuItem                                                           *
      *  Prompts the user to enter details for a new MenuItem and adds it to   *
      *  the list.                                                             *
